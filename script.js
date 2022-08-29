@@ -6,16 +6,19 @@
     main_work(jsoned, resizeMasonryItem);
 })();
 
-function main_work (arr, callback) {
+function main_work (arr, func) {
   const container = document.querySelector('.masonry');
 
   for (let i = 0; i < arr.length; i++) {
+    let promise = new Promise (function (resolve, reject) {
       let img = document.createElement("img");
       img.classList.add("myImg");
       img.src = arr[i].url;
       img.title = arr[i].title;
-      img.onload = () => callback(img);
+      img.onload = () => resolve(img);
       container.appendChild(img); 
+    });
+    promise.then(func);
   }
 }
 
